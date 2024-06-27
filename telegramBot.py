@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 from DiaryRequests.AuthService import *
 from Database import *
-
+from DiaryRequests.TokenService import *
 
 token = '7375063902:AAFmLWHxv93NaHXnomaZjav18lSdI55ydbE'
 
@@ -10,11 +10,12 @@ bot = telebot.TeleBot(token)
 
 
 # print every message
-# when clear history end any process(rgistration, login, etc.)
+# when clear history end any process(registration, login, etc.)
 @bot.message_handler(func=lambda message: message.text == "Try again")
 @bot.message_handler(commands=['start'])
 def start(message):
-    if (len(GetUserByTelegramId(message.from_user.id)) == 0):
+    user = GetUserByTelegramId(message.from_user.id)
+    if len(user) == 0:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         registerItem = types.KeyboardButton("Register")
         markup.add(registerItem)
@@ -24,7 +25,14 @@ def start(message):
                          'Welcome to Diary Telegram Bot!Here you can create, update, delete and get your reports.')
         bot.send_message(message.chat.id, 'Please select the option below', reply_markup=markup)
     else:
-        bot.send_message(message.chat.id, "Welcome back")
+        bot.send_message(message.chat.id, "⏳")
+        response = RefreshToken(user[0][3], user[0][4])
+        if response["isSuccess"]:
+            LoginUser(response["data"]["userId"], response["data"]["accessToken"], response["data"]["refreshToken"])
+            bot.send_message(message.chat.id, "Welcome back")
+        else:
+            bot.send_message(message.chat.id, "Sorry, your token has expired. Please login again.")
+            handle_login(message)
 
 
 @bot.message_handler(func=lambda message: message.text == "Register")
