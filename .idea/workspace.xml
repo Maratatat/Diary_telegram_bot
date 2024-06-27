@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d44aa66f-bc7b-417d-8266-bab045a34537" name="Changes" comment="Login on start added.">
+    <list default="true" id="d44aa66f-bc7b-417d-8266-bab045a34537" name="Changes" comment="Inline keyboard buttons added. They can only be clicked once">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/telegramBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/telegramBot.py" afterDir="false" />
     </list>
@@ -128,7 +128,8 @@
       <workItem from="1719307565096" duration="7334000" />
       <workItem from="1719390149333" duration="661000" />
       <workItem from="1719471429942" duration="974000" />
-      <workItem from="1719489358203" duration="4443000" />
+      <workItem from="1719489358203" duration="5126000" />
+      <workItem from="1719506498245" duration="3085000" />
     </task>
     <task id="LOCAL-00001" summary="Diary(my own) api requests added and work">
       <option name="closed" value="true" />
@@ -154,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719303117457</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Inline keyboard buttons added. They can only be clicked once">
+      <option name="closed" value="true" />
+      <created>1719494608323</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719494608323</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,25 +183,26 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Diary(my own) api requests added and work" />
     <MESSAGE value="Login and registration added." />
-    <option name="LAST_COMMIT_MESSAGE" value="Login and registration added." />
+    <MESSAGE value="Inline keyboard buttons added. They can only be clicked once" />
+    <option name="LAST_COMMIT_MESSAGE" value="Inline keyboard buttons added. They can only be clicked once" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/telegramBot.py</url>
-          <line>71</line>
-          <option name="timeStamp" value="10" />
+          <line>58</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/telegramBot.py</url>
-          <line>26</line>
-          <option name="timeStamp" value="11" />
+          <line>116</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/telegramBot.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="14" />
+          <line>73</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -205,7 +215,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Diary_telegram_bot$telegramBot.coverage" NAME="telegramBot Coverage Results" MODIFIED="1719493760064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Diary_telegram_bot$telegramBot.coverage" NAME="telegramBot Coverage Results" MODIFIED="1719509689473" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/Diary_telegram_bot$main.coverage" NAME="main Coverage Results" MODIFIED="1719079507864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

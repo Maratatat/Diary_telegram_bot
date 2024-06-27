@@ -25,6 +25,13 @@ def start(message):
             pass
         else:
             return
+        if message.message.chat.id not in auth_button_states:
+            auth_button_states[message.message.chat.id] = False
+        if not auth_button_states[message.message.chat.id]:
+            pass
+        else:
+            return
+        # try again  can not be called while authorization
     user = GetUserByTelegramId(message.from_user.id)
     if len(user) == 0:
         markup = types.InlineKeyboardMarkup()
@@ -41,28 +48,33 @@ def start(message):
                              'Welcome to Diary Telegram Bot!Here you can create, update, delete and get your reports.')
             bot.send_message(message.chat.id, 'Please select the option below', reply_markup=markup)
     else:
-        bot.send_message(message.chat.id, "⏳")
-        response = RefreshToken(user[0][3], user[0][4])
-        if response["isSuccess"]:
-            LoginUser(response["data"]["userId"], response["data"]["accessToken"], response["data"]["refreshToken"])
-            bot.send_message(message.chat.id, "Welcome back")
+        if is_callback:
+            bot.send_message(message.message.chat.id, "You are already authorized.")
         else:
-            bot.send_message(message.chat.id, "Sorry, your token has expired. Please login again.")
-            handle_login(message, True)
+            response = RefreshToken(user[0][3], user[0][4])
+            if response["isSuccess"]:
+                LoginUser(response["data"]["userId"], response["data"]["accessToken"], response["data"]["refreshToken"])
+                bot.send_message(message.chat.id, "Welcome back")
+            else:
+                bot.send_message(message.chat.id, "Sorry, your token has expired. Please login again.")
+                handle_login(message, True)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "register")
-def handle_login(callback_query):
-    if callback_query.message.chat.id not in auth_button_states:
-        auth_button_states[callback_query.message.chat.id] = False
-    if not auth_button_states[callback_query.message.chat.id]:
-        auth_button_states[callback_query.message.chat.id] = True
-        user = GetUserByTelegramId(callback_query.message.from_user.id)
-        if len(user) == 0:
-            user_auth_data = {}
-            bot.send_message(callback_query.message.chat.id, "Enter login:")
-            bot.register_next_step_handler(callback_query.message, handle_password, user_auth_data, "Register")
-
+def handle_registration(callback_query):
+    user = GetUserByTelegramId(callback_query.from_user.id)
+    if len(user) == 0:
+        if callback_query.message.chat.id not in auth_button_states:
+            auth_button_states[callback_query.message.chat.id] = False
+        if not auth_button_states[callback_query.message.chat.id]:
+            auth_button_states[callback_query.message.chat.id] = True
+            user = GetUserByTelegramId(callback_query.message.from_user.id)
+            if len(user) == 0:
+                user_auth_data = {}
+                bot.send_message(callback_query.message.chat.id, "Enter login:")
+                bot.register_next_step_handler(callback_query.message, handle_password, user_auth_data, "Register")
+    else:
+        bot.send_message(callback_query.message.chat.id, "You are already registered.")
 
 def handle_password(message, user_auth_data, type):
     user_auth_data["login"] = message.text
@@ -108,13 +120,17 @@ def complete_registration(message, user_auth_data):
 
 @bot.callback_query_handler(func=lambda call: call.data == "login")
 def handle_login(callback_query):
-    if callback_query.message.chat.id not in auth_button_states:
-        auth_button_states[callback_query.message.chat.id] = False
-    if not auth_button_states[callback_query.message.chat.id]:
-        auth_button_states[callback_query.message.chat.id] = True
-        user_auth_data = {}
-        bot.send_message(callback_query.message.chat.id, "Enter login:")
-        bot.register_next_step_handler(callback_query.message, handle_password, user_auth_data, "Login")
+    user = GetUserByTelegramId(callback_query.from_user.id)
+    if len(user) == 0:
+        if callback_query.message.chat.id not in auth_button_states:
+            auth_button_states[callback_query.message.chat.id] = False
+        if not auth_button_states[callback_query.message.chat.id]:
+            auth_button_states[callback_query.message.chat.id] = True
+            user_auth_data = {}
+            bot.send_message(callback_query.message.chat.id, "Enter login:")
+            bot.register_next_step_handler(callback_query.message, handle_password, user_auth_data, "Login")
+    else:
+        bot.send_message(callback_query.message.chat.id, "You are already logged in.")
 
 
 def complete_login(message, user_auth_data):
@@ -125,9 +141,8 @@ def complete_login(message, user_auth_data):
     if responseLogin["isSuccess"]:
         LoginUser(responseLogin["data"]["userId"], responseLogin["data"]["accessToken"],
                   responseLogin["data"]["refreshToken"])
-        bot.send_message(message.chat.id, "Successfully login.")
+        bot.send_message(message.chat.id, "Successfully logged in.")
     else:
-        try_again_button_states[message.chat.id] = False
         markup = types.InlineKeyboardMarkup()
         tryAgainItem = types.InlineKeyboardButton("Try again", callback_data="try again")
         markup.add(tryAgainItem)
