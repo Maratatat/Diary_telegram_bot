@@ -3,24 +3,28 @@ from telebot import types
 from DiaryRequests.AuthService import *
 from Database import *
 
+
 token = '7375063902:AAFmLWHxv93NaHXnomaZjav18lSdI55ydbE'
 
 bot = telebot.TeleBot(token)
 
 
+# print every message
+# when clear history end any process(rgistration, login, etc.)
+@bot.message_handler(func=lambda message: message.text == "Try again")
 @bot.message_handler(commands=['start'])
 def start(message):
-    print(message)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    registerItem = types.KeyboardButton("Register")
-    markup.add(registerItem)
-    loginItem = types.KeyboardButton("Login")
-    markup.add(loginItem)
-    fastLoginItem = types.KeyboardButton("Fast Login")
-    markup.add(fastLoginItem)
-    bot.send_message(message.chat.id,
-                     'Welcome to Diary Telegram Bot!Here you can create, update, delete and get your reports.')
-    bot.send_message(message.chat.id, 'Please select the option below', reply_markup=markup)
+    if (len(GetUserByTelegramId(message.from_user.id)) == 0):
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        registerItem = types.KeyboardButton("Register")
+        markup.add(registerItem)
+        loginItem = types.KeyboardButton("Login")
+        markup.add(loginItem)
+        bot.send_message(message.chat.id,
+                         'Welcome to Diary Telegram Bot!Here you can create, update, delete and get your reports.')
+        bot.send_message(message.chat.id, 'Please select the option below', reply_markup=markup)
+    else:
+        bot.send_message(message.chat.id, "Welcome back")
 
 
 @bot.message_handler(func=lambda message: message.text == "Register")
@@ -56,10 +60,18 @@ def complete_registration(message, user_auth_data):
                          responseLogin["data"]["refreshToken"])
             bot.send_message(message.chat.id, "Successfully registered.")
         else:
-            bot.send_message(message.chat.id, "Failed to register. " + responseLogin["errorMessage"] + '.')
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            tryAgainItem = types.KeyboardButton("Try again")
+            markup.add(tryAgainItem)
+            bot.send_message(message.chat.id, "Failed to register. " + responseLogin["errorMessage"] + '.',
+                             reply_markup=markup)
 
     else:
-        bot.send_message(message.chat.id, "Failed to register. " + responseRegister["errorMessage"] + '.')
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        tryAgainItem = types.KeyboardButton("Try again")
+        markup.add(tryAgainItem)
+        bot.send_message(message.chat.id, "Failed to register. " + responseRegister["errorMessage"] + '.',
+                         reply_markup=markup)
 
 
 @bot.message_handler(func=lambda message: message.text == "Login")
@@ -78,7 +90,11 @@ def complete_login(message, user_auth_data):
                   responseLogin["data"]["refreshToken"])
         bot.send_message(message.chat.id, "Successfully login.")
     else:
-        bot.send_message(message.chat.id, "Failed to login. " + responseLogin["errorMessage"] + '.')
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        tryAgainItem = types.KeyboardButton("Try again")
+        markup.add(tryAgainItem)
+        bot.send_message(message.chat.id, "Failed to login. " + responseLogin["errorMessage"] + '.',
+                         reply_markup=markup)
 
 
 bot.polling(none_stop=True)

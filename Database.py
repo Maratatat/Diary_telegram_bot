@@ -19,7 +19,7 @@ def GetUserByTelegramId(telegramId: int) -> list[tuple[Any, ...]]:
     return result
 
 
-def RegisterUser(userId: int, telegramId: int, accessTokrn: str, refreshToken: str) -> None:
+def RegisterUser(userId: int, telegramId: int, accessTokrn: str, refreshToken: str) -> int:
     cursor = conn.cursor()
 
     cursor.execute(
@@ -27,7 +27,8 @@ def RegisterUser(userId: int, telegramId: int, accessTokrn: str, refreshToken: s
 
     cursor.close()
 
-def LoginUser(userId: int, access_token: str, refreshToken: str) -> None:
+
+def LoginUser(userId: int, access_token: str, refreshToken: str) -> int:
     cursor = conn.cursor()
     cursor.execute(
         f'UPDATE public."Users" SET   "accessToken"=\'{access_token}\', "refreshToken"=\'{refreshToken}\' WHERE "userId"={userId};'
