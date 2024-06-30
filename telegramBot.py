@@ -92,7 +92,7 @@ def handle_confirm_password(message, user_auth_data):
 
 def complete_registration(message, user_auth_data):
     try_again_button_states[message.chat.id] = False
-    bot.send_message(message.chat.id, "⏳")
+
     user_auth_data["passwordConfirm"] = message.text
     responseRegister = Register(user_auth_data["login"], user_auth_data["password"], user_auth_data["passwordConfirm"])
     if responseRegister["isSuccess"]:
@@ -141,7 +141,7 @@ def handle_login(callback_query):
 
 def complete_login(message, user_auth_data):
     try_again_button_states[message.chat.id] = False
-    bot.send_message(message.chat.id, "⏳")
+
     user_auth_data["password"] = message.text
     responseLogin = Login(user_auth_data["login"], user_auth_data["password"])
     if responseLogin["isSuccess"]:
