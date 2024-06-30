@@ -44,7 +44,7 @@ def start(message):
             bot.send_message(message.message.chat.id, 'Please select the option below', reply_markup=markup)
         else:
             bot.send_message(message.chat.id,
-                             'Welcome to Diary Telegram Bot!Here you can create, update, delete and get your reports.')
+                             'Welcome to Diary Telegram Bot! Here you can create, update, delete and get your reports.')
             bot.send_message(message.chat.id, 'Please select the option below', reply_markup=markup)
     else:
         if is_callback:
