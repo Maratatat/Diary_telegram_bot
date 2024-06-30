@@ -1,4 +1,5 @@
 import functools
+import inspect
 import telebot
 from telebot import types
 from DiaryRequests.AuthService import *
@@ -309,7 +310,15 @@ def AuthorizeAndCompleteAction(user, callback, message):
     if refreshResponse["isSuccess"]:
         LoginUser(refreshResponse["data"]["userId"], refreshResponse["data"]["accessToken"],
                   refreshResponse["data"]["refreshToken"])
-        callback(user=GetUserByTelegramId(message.from_user.id)[0])
+
+        signature = inspect.signature(callback)
+        parameters = signature.parameters
+
+        if 'user' in parameters:
+            callback(user=GetUserByTelegramId(message.from_user.id)[0])
+        else:
+            callback(message)
+
     else:
         bot.send_message(message.chat.id, "Sorry, your token has expired. Please login again.")
         handle_login(message)
