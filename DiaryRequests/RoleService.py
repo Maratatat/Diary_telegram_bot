@@ -10,7 +10,7 @@ def CreateRole(name: str, token: str):
     response = requests.post(baseUrl + '/api/Role?api-version=1', data=body, headers=headers_with_auth, verify=False)
     if response.status_code == 200 or response.status_code == 400 or response.status_code == 500:
         return response.json()
-    return f'{response.status_code}\n{response.headers}'
+    return {"responseStatusCode": response.status_code, "responseHeaders": response.headers}
 
 
 def UpdateRole(id: int, name: str, token: str):
@@ -20,7 +20,7 @@ def UpdateRole(id: int, name: str, token: str):
     response = requests.put(baseUrl + '/api/Role?api-version=1', data=body, headers=headers_with_auth, verify=False)
     if response.status_code == 200 or response.status_code == 400 or response.status_code == 500:
         return response.json()
-    return f'{response.status_code}\n{response.headers}'
+    return {"responseStatusCode": response.status_code, "responseHeaders": response.headers}
 
 
 def DeleteRole(id: int, token: str):
@@ -30,7 +30,7 @@ def DeleteRole(id: int, token: str):
                                verify=False)
     if response.status_code == 200 or response.status_code == 400 or response.status_code == 500:
         return response.json()
-    return f'{response.status_code}\n{response.headers}'
+    return {"responseStatusCode": response.status_code, "responseHeaders": response.headers}
 
 
 def AddRoleForUser(login: str, roleName: str, token: str):
@@ -41,7 +41,7 @@ def AddRoleForUser(login: str, roleName: str, token: str):
                              verify=False)
     if response.status_code == 200 or response.status_code == 400 or response.status_code == 500:
         return response.json()
-    return f'{response.status_code}\n{response.headers}'
+    return {"responseStatusCode": response.status_code, "responseHeaders": response.headers}
 
 
 def DeleteRoleOfUser(login: str, roleId: int, token: str):
@@ -52,7 +52,7 @@ def DeleteRoleOfUser(login: str, roleId: int, token: str):
                                verify=False)
     if response.status_code == 200 or response.status_code == 400 or response.status_code == 500:
         return response.json()
-    return f'{response.status_code}\n{response.headers}'
+    return {"responseStatusCode": response.status_code, "responseHeaders": response.headers}
 
 
 def UpdateRoleForUser(login: str, fromRoleId: int, toRoleId: int, token: str):
@@ -63,4 +63,4 @@ def UpdateRoleForUser(login: str, fromRoleId: int, toRoleId: int, token: str):
                             verify=False)
     if response.status_code == 200 or response.status_code == 400 or response.status_code == 500:
         return response.json()
-    return f'{response.status_code}\n{response.headers}'
+    return {"responseStatusCode": response.status_code, "responseHeaders": response.headers}
